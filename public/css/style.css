@@ -13,6 +13,18 @@
     text-decoration: none; /* Remove underline */
     transition: color 0.3s ease, background-color 0.3s ease; /* Smooth transition */
   }
+  .table {
+    margin-top: 20px;
+  }
+  
+  .table th, .table td {
+    vertical-align: middle;
+  }
+  
+  .btn-primary {
+    margin-top: 20px;
+  }
+  
   
   .nav-link:hover {
     color: #007bff; /* Change text color on hover */

@@ -36,7 +36,7 @@ const Carousel = () => {
                     to="/login"
                     className="btn btn-light py-md-3 px-md-5 animated slideInRight"
                   >
-                   Log In
+                   Log Out
                   </RouterLink>
                 </div>
               </div>

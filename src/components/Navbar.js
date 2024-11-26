@@ -42,12 +42,12 @@ const Navbar = () => {
           </Link>
         </div>
         <RouterLink
-          to="/register"
+          to="/login"
           smooth={true}
           duration={500}
           className="btn btn-primary py-4 px-lg-5 d-none d-lg-block"
         >
-          Join Now<i className="fa fa-arrow-right ms-3"></i>
+         Log Out<i className="fa fa-arrow-right ms-3"></i>
         </RouterLink>
         
       </div>

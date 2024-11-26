@@ -12,12 +12,12 @@ const CourseDetails = () => {
     const fetchCourseData = async () => {
       try {
         // Fetch course details
-        const courseResponse = await fetch(`http://localhost:8081/cour/GetCours`);
+        const courseResponse = await fetch("http://localhost:8081/cour/GetCours");
         if (!courseResponse.ok) {
-          throw new Error('Error fetching course details');
+          throw new Error(`Error fetching course details: ${courseResponse.statusText}`);
         }
         const coursesData = await courseResponse.json();
-        const matchedCourse = coursesData.find((course) => course.id === parseInt(id));
+        const matchedCourse = coursesData.find((course) => course.id === parseInt(id, 10));
         if (!matchedCourse) {
           throw new Error('Course not found');
         }
@@ -26,11 +26,12 @@ const CourseDetails = () => {
         // Fetch course images
         const imagesResponse = await fetch(`http://localhost:8081/cour/getImagesCour?courId=${id}`);
         if (!imagesResponse.ok) {
-          throw new Error('Error fetching course images');
+          throw new Error(`Error fetching course images: ${imagesResponse.statusText}`);
         }
         const imagesData = await imagesResponse.json();
         setImages(imagesData.picbyte ? [`data:${imagesData.type};base64,${imagesData.picbyte}`] : []);
       } catch (err) {
+        console.error('Fetch error:', err); // Log the error
         setError(err.message);
       } finally {
         setLoading(false);

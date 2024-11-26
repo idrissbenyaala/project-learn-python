@@ -49,9 +49,9 @@ const Login = () => {
 
       // Redirection en fonction du rôle
       if (role === 'ADMIN CLIENT') {
-        navigate('/dashboard'); // Redirection vers le tableau de bord pour l'admin
+        navigate('/admin'); // Redirection vers le tableau de bord pour l'admin
       } else if (role === 'CLIENT') {
-        navigate('/'); // Redirection vers la page d'accueil pour le client
+        navigate('/home'); // Redirection vers la page d'accueil pour le client
       } else {
         setError('Unauthorized role');
       }
