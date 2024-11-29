@@ -17,23 +17,22 @@ const About = () => {
           </div>
           <div className="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
             <h6 className="section-title bg-white text-start text-primary pe-3">About Us</h6>
-            <h1 className="mb-4">Welcome to eLEARNING</h1>
+            <h1 className="mb-4">Welcome to Aalemny Python</h1>
             <p className="mb-4">
-              Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum
-              et lorem et sit.
+            Welcome to <strong>Aalemny Python</strong>, your ultimate destination for learning and mastering Python programming.
+            Whether you are a beginner or looking to enhance your skills, we offer courses tailored to your needs.
             </p>
             <p className="mb-4">
-              Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum
-              et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet
-            </p>
+            Explore a wide range of Python topics, from the basics to advanced concepts, and embark on a journey to become
+            proficient in one of the most versatile programming languages. Join us to elevate your Python skills and unlock endless opportunities.            </p>
             <div className="row gy-2 gx-4 mb-4">
               {[
-                'Skilled Instructors',
-                'Online Classes',
-                'International Certificate',
-                'Skilled Instructors',
-                'Online Classes',
-                'International Certificate',
+                'Expert Python Instructors',
+                'Comprehensive Online Courses',
+                'Industry-Recognized Certifications',
+                'Interactive Learning Experience',
+                'Flexible Learning Schedule',
+                'Career-Oriented Curriculum',
               ].map((feature, index) => (
                 <div className="col-sm-6" key={index}>
                   <p className="mb-0">

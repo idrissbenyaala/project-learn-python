@@ -94,18 +94,17 @@ const Sidebar = ({ setContent }) => {
             className="nav-content collapse"
             data-bs-parent="#sidebar-nav"
           >
+            
             <li className="nav-item">
-              <a className="nav-link" href="#" onClick={() => setContent('add-student')}>
-                <i className="bi bi-plus-circle"></i>
-                <span>Add Student</span>
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#" onClick={() => setContent('students-list')}>
-                <i className="bi bi-list-task"></i>
-                <span>Student List</span>
-              </a>
-            </li>
+  <a
+    className="nav-link"
+    href="#"
+    onClick={() => setContent('students-list')}
+  >
+    <i className="bi bi-people"></i>
+    <span>Student List</span>
+  </a>
+</li>
           </ul>
         </li>
       </ul>

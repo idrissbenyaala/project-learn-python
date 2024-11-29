@@ -1,7 +1,64 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const Quiz = () => {
+  const [quizzes, setQuizzes] = useState([]);
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        setError("No access token found. Please log in.");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        // Fetch quizzes
+        const quizzesResponse = await axios.get("http://localhost:8081/Quiz/GetAllQuizzes", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setQuizzes(quizzesResponse.data);
+
+        // Fetch images
+        const imagesResponse = await axios.get("http://localhost:8081/Quiz/GetImages", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setImages(imagesResponse.data);
+      } catch (err) {
+        setError(err.message || "An error occurred while fetching data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading)
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="alert alert-danger" role="alert">
+        {error}
+      </div>
+    );
+
   return (
     <div className="container-xxl py-5 category">
       <div className="container">
@@ -10,41 +67,40 @@ const Quiz = () => {
           <h1 className="mb-5">Test Your Knowledge</h1>
         </div>
         <div className="row g-3">
-          <div className="col-lg-7 col-md-6">
-            <div className="row g-3">
-              {[1, 2].map((index) => (
-                <div className={`col-lg-6 col-md-12 wow zoomIn`} data-wow-delay={`${index * 0.2}s`} key={index}>
-                  <Link to={`/quiz/${index}`} className="position-relative d-block overflow-hidden">
-                    <img className="img-fluid" src={`img/cat-${index}.jpg`} alt={`Quiz ${index}`} />
-                    <div
-                      className="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3"
-                      style={{ margin: '1px' }}
-                    >
-                      <h5 className="m-0">Quiz {index}</h5>
-                      <small className="text-primary">10 Questions</small>
-                    </div>
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="col-lg-5 col-md-6 wow zoomIn" data-wow-delay="0.7s" style={{ minHeight: '350px' }}>
-            <Link to={`/quiz/2`} className="position-relative d-block h-100 overflow-hidden">
-              <img
-                className="img-fluid position-absolute w-100 h-100"
-                src="img/cat-2.jpg"
-                alt="Advanced Quiz"
-                style={{ objectFit: 'cover' }}
-              />
+          {quizzes.map((quiz, index) => {
+            const questions = Array.isArray(quiz.questions) ? quiz.questions : [];
+            const image = images[index] || {};  // Default to an empty object if image is not found
+
+            return (
               <div
-                className="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3"
-                style={{ margin: '1px' }}
+                className={`col-lg-6 col-md-12 wow zoomIn`}
+                data-wow-delay={`${(index + 1) * 0.2}s`}
+                key={quiz.id}
               >
-                <h5 className="m-0">Advanced Quiz</h5>
-                <small className="text-primary">15 Questions</small>
+                <div className="position-relative d-block overflow-hidden">
+                  <img
+                    className="img-fluid"
+                    src={image.picbyte ? `data:${image.type};base64,${image.picbyte}` : 'https://via.placeholder.com/150'}
+                    alt={quiz.title}
+                  />
+                  <div
+                    className="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3"
+                    style={{ margin: '1px' }}
+                  >
+                    <h5 className="m-0">{quiz.title}</h5>
+                    <small className="text-primary">{questions.length} Questions</small>
+                    <br />
+                    <Link
+                      to={`/quiz/${quiz.id}`}
+                      className="btn btn-primary mt-2"
+                    >
+                      Start Quiz
+                    </Link>
+                  </div>
+                </div>
               </div>
-            </Link>
-          </div>
+            );
+          })}
         </div>
       </div>
     </div>

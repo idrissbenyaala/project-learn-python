@@ -5,8 +5,7 @@ import Footer from './components/Footer';
 import Carousel from './components/Carousel';
 import Login from './components/Login';
 import About from './components/About';
-import Team from './components/Team';
-import Contact from './components/Contact';
+import Contact from './components/Contact.js';
 import Spinner from './components/Spinner';
 import Services from './components/Services';
 import Quiz from './components/Quiz';
@@ -16,10 +15,11 @@ import Profile from './components/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
 import CourseDetails from './components/CourseDetails';
 import QuizDetails from './components/QuizDetails';
-import ScrollToTop from './components/ScrollToTop';
+import ScrollToTop from './components/ScrollToTop.js';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import MainContent from './components/MainContent';
+import Home from './components/Home';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -34,7 +34,7 @@ function App() {
   }, []);
 
   if (loading) {
-    return <Spinner />; // Show loading spinner while the page is loading
+    return <Spinner />;
   }
 
   return (
@@ -44,7 +44,7 @@ function App() {
       <Routes>
         {/* Redirect root (/) to /login */}
         <Route path="/" element={<Navigate to="/login" replace />} />
-        
+
         {/* Login Route */}
         <Route path="/login" element={<Login />} />
 
@@ -53,21 +53,10 @@ function App() {
           path="/home"
           element={
             <ProtectedRoute requiredRole="CLIENT">
-              <>
-                <Navbar />
-                <div id="carousel"><Carousel /></div>
-                <div id="about"><About /></div>
-                <div id="services"><Services /></div>
-                <div id="courses"><Courses /></div>
-                <div id="quiz"><Quiz /></div>
-                <div id="team"><Team /></div>
-                <div id="contact"><Contact /></div>
-                <Footer />
-              </>
+              <Home />
             </ProtectedRoute>
           }
         />
-
 
         {/* Admin Interface Route */}
         <Route
@@ -82,13 +71,30 @@ function App() {
             </ProtectedRoute>
           }
         />
-        
+
+        {/* Protected Routes for Client */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute requiredRole="CLIENT">
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
         <Route id="about" path="/about" element={<About />} />
         <Route id="courses" path="/courses" element={<Courses />} />
         <Route path="/courses/:id" element={<CourseDetails />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/quiz/:id" element={<QuizDetails />} />
-        <Route id="register" path="/register" element={<Register />} />
+        <Route
+          id="register"
+          path="/register"
+          element={
+            
+              <Register />
+           
+          }
+        />
       </Routes>
     </Router>
   );

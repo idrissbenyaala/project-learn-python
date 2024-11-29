@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import Navbar from './Navbar';
 
 const QuizDetails = () => {
   const navigate = useNavigate();
-  const { id } = useParams(); // Get the quiz ID from the URL
+  const { id } = useParams();
   const currentQuizId = parseInt(id);
 
   // Hardcoded quiz data
@@ -82,75 +82,67 @@ const QuizDetails = () => {
     });
     setScore(calculatedScore);
     setShowResult(true);
-  };
 
-  const handleRetry = () => {
-    setAnswers({});
-    setShowResult(false);
-    setScore(0);
-  };
-
-  const handleGoToCourses = () => {
-    navigate('/courses'); // Navigate to the courses page
+    // Mark quiz as completed if score is perfect
+    if (calculatedScore === questions.length) {
+      const completedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes')) || [];
+      if (!completedQuizzes.includes(currentQuizId)) {
+        completedQuizzes.push(currentQuizId);
+        localStorage.setItem('completedQuizzes', JSON.stringify(completedQuizzes));
+      }
+    }
   };
 
   return (
-    <div className="container my-5">
-      <h2 className="text-center">Python Quiz {currentQuizId}</h2>
-      {!showResult ? (
-        <div className="quiz-container">
-          {questions.map((question) => (
-            <div key={question.id} className="mb-4">
-              <h4>{`Q${question.id}: ${question.question}`}</h4>
-              {question.options.map((option, index) => (
-                <div className="form-check" key={index}>
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name={`question-${question.id}`}
-                    id={`option-${question.id}-${index}`}
-                    value={option}
-                    checked={answers[question.id] === option}
-                    onChange={() => handleOptionChange(question.id, option)}
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor={`option-${question.id}-${index}`}
-                  >
-                    {option}
-                  </label>
-                </div>
-              ))}
-            </div>
-          ))}
-          <button className="btn btn-primary mt-3" onClick={handleSubmit}>
-            Submit Quiz
-          </button>
-        </div>
-      ) : (
-        <div className="quiz-result text-center">
-          <h3>Your Score: {score}/{questions.length}</h3>
-          {score === questions.length ? (
-            <div>
-              <p>Congratulations! You answered all questions correctly. 🎉</p>
-              <Link to="/courses" className="btn btn-primary mt-3">
-        Go to Courses
-      </Link>
-            </div>
-          ) : (
-            <div>
+    <>
+      <Navbar />
+      <div className="container my-5">
+        <h2 className="text-center">Python Quiz {currentQuizId}</h2>
+        {!showResult ? (
+          <div className="quiz-container">
+            {questions.map((question) => (
+              <div key={question.id} className="mb-4">
+                <h4>{`Q${question.id}: ${question.question}`}</h4>
+                {question.options.map((option, index) => (
+                  <div className="form-check" key={index}>
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name={`question-${question.id}`}
+                      id={`option-${question.id}-${index}`}
+                      value={option}
+                      checked={answers[question.id] === option}
+                      onChange={() => handleOptionChange(question.id, option)}
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor={`option-${question.id}-${index}`}
+                    >
+                      {option}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            ))}
+            <button className="btn btn-primary mt-3" onClick={handleSubmit}>
+              Submit Quiz
+            </button>
+          </div>
+        ) : (
+          <div className="quiz-result text-center">
+            <h3>Your Score: {score}/{questions.length}</h3>
+            {score === questions.length ? (
+              <p>Congratulations! You have completed this quiz.</p>
+            ) : (
               <p>Good effort! Try again to improve your score.</p>
-              <button className="btn btn-secondary" onClick={handleRetry}>
-                Retry Quiz
-              </button>
-              <Link to="/courses" className="btn btn-primary mt-3">
-        Go to Courses
-      </Link>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+            )}
+            <button className="btn btn-secondary mt-3" onClick={() => navigate('/quiz')}>
+              Back to Quizzes
+            </button>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
