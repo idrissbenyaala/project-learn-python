@@ -6,7 +6,7 @@ import Carousel from './components/Carousel';
 import Login from './components/Login';
 import About from './components/About';
 import Team from './components/Team';
-import Contact from './components/Contact.js';
+import Contact from './components/Contact';
 import Spinner from './components/Spinner';
 import Services from './components/Services';
 import Quiz from './components/Quiz';
@@ -16,7 +16,7 @@ import Profile from './components/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
 import CourseDetails from './components/CourseDetails';
 import QuizDetails from './components/QuizDetails';
-import ScrollToTop from './components/ScrollToTop.js';
+import ScrollToTop from './components/ScrollToTop';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import MainContent from './components/MainContent';
@@ -34,7 +34,7 @@ function App() {
   }, []);
 
   if (loading) {
-    return <Spinner />;
+    return <Spinner />; // Show loading spinner while the page is loading
   }
 
   return (
@@ -52,35 +52,37 @@ function App() {
         <Route
           path="/home"
           element={
-            <>
-              <Navbar />
-
-              <div id="carousel"><Carousel /></div>
-              <div id="about"><About /></div>
-              <div id="services"><Services /></div>
-              <div id="courses"><Courses /></div>
-              <div id="quiz"><Quiz /></div>
-              <div id="team"><Team /></div>
-              <div id="contact"><Contact /></div>
-              <Footer />
-            </>
+            <ProtectedRoute requiredRole="CLIENT">
+              <>
+                <Navbar />
+                <div id="carousel"><Carousel /></div>
+                <div id="about"><About /></div>
+                <div id="services"><Services /></div>
+                <div id="courses"><Courses /></div>
+                <div id="quiz"><Quiz /></div>
+                <div id="team"><Team /></div>
+                <div id="contact"><Contact /></div>
+                <Footer />
+              </>
+            </ProtectedRoute>
           }
         />
+
 
         {/* Admin Interface Route */}
         <Route
           path="/admin"
           element={
-            <div className="d-flex">
-              <Header />
-              <Sidebar setContent={setContent} /> {/* Sidebar updates main content */}
-              <MainContent content={content} /> {/* MainContent dynamically renders content */}
-            </div>
+            <ProtectedRoute requiredRole="ADMIN CLIENT">
+              <div className="d-flex">
+                <Header />
+                <Sidebar setContent={setContent} /> {/* Sidebar updates main content */}
+                <MainContent content={content} /> {/* MainContent dynamically renders content */}
+              </div>
+            </ProtectedRoute>
           }
         />
-
-        {/* Protected Routes */}
-        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        
         <Route id="about" path="/about" element={<About />} />
         <Route id="courses" path="/courses" element={<Courses />} />
         <Route path="/courses/:id" element={<CourseDetails />} />

@@ -1,7 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link, useNavigate } from 'react-router-dom'; // Import Link and useNavigate from react-router-dom
 
 const Header = () => {
+  const navigate = useNavigate(); // Use navigate for redirection
+
+  // Function to handle logout
+  const handleLogout = () => {
+    // Clear all data from localStorage
+    localStorage.clear();
+
+    // Redirect to login page
+    navigate('/login');
+  };
+
   return (
     <header id="header" className="header fixed-top d-flex align-items-center">
       <div className="d-flex align-items-center justify-content-between">
@@ -34,19 +45,19 @@ const Header = () => {
               href="#"
               data-bs-toggle="dropdown"
             >
-             
               <span className="d-none d-md-block dropdown-toggle ps-2">
                 Admin
               </span>
             </a>
             <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-              
-             
               <li>
-              <Link to="/login" className="dropdown-item d-flex align-items-center">
-            <i className="bi bi-box-arrow-right"></i>
-            <span>Sign Out</span>
-          </Link>
+                <button
+                  className="dropdown-item d-flex align-items-center"
+                  onClick={handleLogout} // Call the handleLogout function on click
+                >
+                  <i className="bi bi-box-arrow-right"></i>
+                  <span>Sign Out</span>
+                </button>
               </li>
             </ul>
           </li>

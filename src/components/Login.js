@@ -30,28 +30,19 @@ const Login = () => {
       }
 
       const data = await response.json();
-
-      // Récupérer le token JWT
       const accessToken = data['acces-token'];
-      localStorage.setItem('accessToken', accessToken);
-
-      // Décoder le JWT pour extraire les informations utilisateur
       const decodedJwt = JSON.parse(atob(accessToken.split('.')[1]));
-      const role = decodedJwt.scope; // Le rôle est extrait ici (comme "admin" ou "client")
-      const username = decodedJwt.sub; // Nom d'utilisateur
-
-      // Stocker les informations utilisateur dans localStorage
+      const role = decodedJwt.scope;
+      const username = decodedJwt.sub; 
+      localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('userName', username);
       localStorage.setItem('role', role);
       localStorage.setItem('ia', 'true');
-
       console.log('Login successful:', { username, role });
-
-      // Redirection en fonction du rôle
       if (role === 'ADMIN CLIENT') {
-        navigate('/admin'); // Redirection vers le tableau de bord pour l'admin
+        navigate('/admin'); 
       } else if (role === 'CLIENT') {
-        navigate('/home'); // Redirection vers la page d'accueil pour le client
+        navigate('/home'); 
       } else {
         setError('Unauthorized role');
       }

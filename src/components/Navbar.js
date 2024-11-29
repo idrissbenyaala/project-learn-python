@@ -1,11 +1,20 @@
 import React from 'react';
 import { Link } from 'react-scroll';
-import { Link as RouterLink } from 'react-router-dom'; // For routing
-import { Link as ScrollLink } from 'react-scroll'; // For smooth scrolling
+import { Link as RouterLink, useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 
 const Navbar = () => {
+  const navigate = useNavigate(); // Hook to handle navigation after logout
+
+  // Function to handle logout
+  const handleLogout = () => {
+    // Clear localStorage
+    localStorage.clear();
+
+    // Redirect to login page
+    navigate('/login');
+  };
+
   return (
-    
     <nav className="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
       <a href="#" className="navbar-brand d-flex align-items-center px-4 px-lg-5">
         <h2 className="m-0 text-primary">
@@ -22,9 +31,9 @@ const Navbar = () => {
       </button>
       <div className="collapse navbar-collapse" id="navbarCollapse">
         <div className="navbar-nav ms-auto p-4 p-lg-0">
-        <Link to="/profile" className="nav-item nav-link">
-        My Profile
-      </Link>
+          <Link to="profile" smooth={true} duration={500} className="nav-item nav-link">
+            My Profile
+          </Link>
           <Link to="home" smooth={true} duration={500} className="nav-item nav-link">
             Home
           </Link>
@@ -41,15 +50,12 @@ const Navbar = () => {
             Contact
           </Link>
         </div>
-        <RouterLink
-          to="/login"
-          smooth={true}
-          duration={500}
+        <button
+          onClick={handleLogout} // Call handleLogout function on click
           className="btn btn-primary py-4 px-lg-5 d-none d-lg-block"
         >
-         Log Out<i className="fa fa-arrow-right ms-3"></i>
-        </RouterLink>
-        
+          Log Out<i className="fa fa-arrow-right ms-3"></i>
+        </button>
       </div>
     </nav>
   );
