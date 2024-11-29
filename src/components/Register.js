@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ const Register = () => {
 
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,7 +20,6 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validation de base
     if (!formData.name || !formData.email || !formData.password) {
       setError('All fields are required.');
       return;
@@ -46,7 +47,7 @@ const Register = () => {
       });
 
       if (!response.ok) {
-        const message = await response.text(); // Récupérer le message d'erreur du backend
+        const message = await response.text();
         throw new Error(message);
       }
 
@@ -56,55 +57,104 @@ const Register = () => {
         email: '',
         password: '',
       });
+
+      // Redirect to the login page after successful registration
+      navigate('/login');
     } catch (err) {
-      setError(err.message); // Afficher le message d'erreur renvoyé par le backend
+      setError(err.message);
     }
   };
 
   return (
-    <div className="container my-5">
-      <h2 className="text-center">Register</h2>
-      {error && <div className="alert alert-danger">{error}</div>}
-      {success && <div className="alert alert-success">Registration successful!</div>}
-      <form className="mx-auto" style={{ maxWidth: '400px' }} onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="name" className="form-label">Full Name</label>
-          <input
-            type="text"
-            className="form-control"
-            id="name"
-            name="name"
-            placeholder="Enter your full name"
-            value={formData.name}
-            onChange={handleChange}
-          />
+    <div className="limiter">
+      <div className="container-login100">
+        <div className="wrap-login100">
+          <div className="login100-pic js-tilt" data-tilt>
+            <img src="/images/img-01.png" alt="IMG" />
+          </div>
+
+          <form className="login100-form validate-form" onSubmit={handleSubmit}>
+            <span className="login100-form-title">Create Account</span>
+
+            {error && <div className="alert alert-danger">{error}</div>}
+            {success && (
+              <div className="alert alert-success">
+                Registration successful!
+              </div>
+            )}
+
+            <div
+              className="wrap-input100 validate-input"
+              data-validate="Full name is required"
+            >
+              <input
+                className="input100"
+                type="text"
+                name="name"
+                placeholder="Full Name"
+                value={formData.name}
+                onChange={handleChange}
+              />
+              <span className="focus-input100"></span>
+              <span className="symbol-input100">
+                <i className="fa fa-user" aria-hidden="true"></i>
+              </span>
+            </div>
+
+            <div
+              className="wrap-input100 validate-input"
+              data-validate="Valid email is required: ex@abc.xyz"
+            >
+              <input
+                className="input100"
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+              />
+              <span className="focus-input100"></span>
+              <span className="symbol-input100">
+                <i className="fa fa-envelope" aria-hidden="true"></i>
+              </span>
+            </div>
+
+            <div
+              className="wrap-input100 validate-input"
+              data-validate="Password is required"
+            >
+              <input
+                className="input100"
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+              <span className="focus-input100"></span>
+              <span className="symbol-input100">
+                <i className="fa fa-lock" aria-hidden="true"></i>
+              </span>
+            </div>
+
+            <div className="container-login100-form-btn">
+              <button className="login100-form-btn" type="submit">
+                Register
+              </button>
+            </div>
+
+            <div className="text-center p-t-136">
+              <Link className="txt2" to="/login">
+                Already have an account? Login
+                <i
+                  className="fa fa-long-arrow-right m-l-5"
+                  aria-hidden="true"
+                ></i>
+              </Link>
+            </div>
+          </form>
         </div>
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">Email address</label>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            name="email"
-            placeholder="Enter your email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">Password</label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            name="password"
-            placeholder="Enter your password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="submit" className="btn btn-primary w-100">Register</button>
-      </form>
+      </div>
     </div>
   );
 };

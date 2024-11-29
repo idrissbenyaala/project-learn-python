@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Navbar from './Navbar'; // Import the Navbar component
 
 const Courses = () => {
   const [courses, setCourses] = useState([]); // État pour les cours
@@ -46,6 +47,7 @@ const Courses = () => {
   if (error) return <p>Erreur : {error}</p>;
 
   return (
+    
     <div className="container-xxl py-5">
       <div className="container">
         <div className="text-center wow fadeInUp" data-wow-delay="0.1s">

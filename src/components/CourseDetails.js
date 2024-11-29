@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import Navbar from './Navbar'; // Import the Navbar component
 
 const CourseDetails = () => {
   const { id } = useParams(); // Get the course ID from the URL
@@ -45,29 +46,32 @@ const CourseDetails = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="container my-5">
-      <h2 className="text-center">{course.title}</h2>
-      <div className="row">
-        <div className="col-md-6">
-          {images.length > 0 ? (
-            <img src={images[0]} alt={course.title} className="img-fluid" />
-          ) : (
-            <img
-              src="https://via.placeholder.com/150"
-              alt="Placeholder"
-              className="img-fluid"
-            />
-          )}
-        </div>
-        <div className="col-md-6">
-          <h4>Course Details</h4>
-          <p>{course.contenu}</p>
-          <Link to="/quiz" className="btn btn-primary">
-            Go to Quiz
-          </Link>
+    <>
+      <Navbar /> 
+      <div className="container my-5">
+        <h2 className="text-center">{course.title}</h2>
+        <div className="row">
+          <div className="col-md-6">
+            {images.length > 0 ? (
+              <img src={images[0]} alt={course.title} className="img-fluid" />
+            ) : (
+              <img
+                src="https://via.placeholder.com/150"
+                alt="Placeholder"
+                className="img-fluid"
+              />
+            )}
+          </div>
+          <div className="col-md-6">
+            <h4>Course Details</h4>
+            <p>{course.contenu}</p>
+            <Link to="/quiz" className="btn btn-primary">
+              Go to Quiz
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

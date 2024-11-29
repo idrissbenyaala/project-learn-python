@@ -5,7 +5,7 @@ import Footer from './components/Footer';
 import Carousel from './components/Carousel';
 import Login from './components/Login';
 import About from './components/About';
-import Team from './components/Team';
+// import Team from './components/Team';
 import Contact from './components/Contact.js';
 import Spinner from './components/Spinner';
 import Services from './components/Services';
@@ -20,6 +20,7 @@ import ScrollToTop from './components/ScrollToTop.js';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import MainContent from './components/MainContent';
+import Home from './components/Home';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -49,23 +50,13 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         {/* Main Client Interface Route */}
+        
         <Route
-          path="/home"
-          element={
-            <>
-              <Navbar />
-
-              <div id="carousel"><Carousel /></div>
-              <div id="about"><About /></div>
-              <div id="services"><Services /></div>
-              <div id="courses"><Courses /></div>
-              <div id="quiz"><Quiz /></div>
-              <div id="team"><Team /></div>
-              <div id="contact"><Contact /></div>
-              <Footer />
-            </>
-          }
-        />
+  path="/home"
+  element={
+    <Home />
+  }
+/>
 
         {/* Admin Interface Route */}
         <Route
