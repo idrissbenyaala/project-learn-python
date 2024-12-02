@@ -5,6 +5,10 @@ import Footer from './components/Footer';
 import Carousel from './components/Carousel';
 import Login from './components/Login';
 import About from './components/About';
+<<<<<<< HEAD
+=======
+// import Team from './components/Team';
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
 import Contact from './components/Contact.js';
 import Spinner from './components/Spinner';
 import Services from './components/Services';
@@ -44,11 +48,16 @@ function App() {
       <Routes>
         {/* Redirect root (/) to /login */}
         <Route path="/" element={<Navigate to="/login" replace />} />
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
         {/* Login Route */}
         <Route path="/login" element={<Login />} />
 
         {/* Main Client Interface Route */}
+<<<<<<< HEAD
         <Route
           path="/home"
           element={
@@ -57,11 +66,21 @@ function App() {
             </ProtectedRoute>
           }
         />
+=======
+        
+        <Route
+  path="/home"
+  element={
+    <Home />
+  }
+/>
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
 
         {/* Admin Interface Route */}
         <Route
           path="/admin"
           element={
+<<<<<<< HEAD
             <ProtectedRoute requiredRole="ADMIN CLIENT">
               <div className="d-flex">
                 <Header />
@@ -81,11 +100,24 @@ function App() {
             </ProtectedRoute>
           }
         />
+=======
+            <div className="d-flex">
+              <Header />
+              <Sidebar setContent={setContent} /> {/* Sidebar updates main content */}
+              <MainContent content={content} /> {/* MainContent dynamically renders content */}
+            </div>
+          }
+        />
+
+        {/* Protected Routes */}
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
         <Route id="about" path="/about" element={<About />} />
         <Route id="courses" path="/courses" element={<Courses />} />
         <Route path="/courses/:id" element={<CourseDetails />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/quiz/:id" element={<QuizDetails />} />
+<<<<<<< HEAD
         <Route
           id="register"
           path="/register"
@@ -95,9 +127,16 @@ function App() {
            
           }
         />
+=======
+        <Route id="register" path="/register" element={<Register />} />
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
       </Routes>
     </Router>
   );
 }
 
+<<<<<<< HEAD
 export default App;
+=======
+export default App;
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5

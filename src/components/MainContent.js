@@ -35,21 +35,31 @@ const AddCourseForm = ({ courses, setCourses }) => {
   const [courseName, setCourseName] = useState('');
   const [courseContent, setCourseContent] = useState('');
   const [coursePicture, setCoursePicture] = useState(null);
+<<<<<<< HEAD
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+=======
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     try {
+<<<<<<< HEAD
       const token = localStorage.getItem('accessToken');
 
       // Créer l'objet JSON pour le cours
+=======
+      const token = localStorage.getItem('accessToken'); // Retrieve token from localStorage
+
+      // Create a JSON object for the course details
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
       const courRequestDto = JSON.stringify({
         title: courseName,
         contenu: courseContent,
       });
 
+<<<<<<< HEAD
       // Utiliser FormData pour inclure l'objet JSON et le fichier
       const formData = new FormData();
       formData.append('CourRequestDto', courRequestDto);
@@ -62,10 +72,25 @@ const AddCourseForm = ({ courses, setCourses }) => {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
+=======
+      // Use FormData to include the JSON object and file
+      const formData = new FormData();
+      formData.append('CourRequestDto', courRequestDto);
+      if (coursePicture) {
+        formData.append('file', coursePicture); // Include the optional file
+      }
+
+      // Make the POST request
+      const response = await fetch('http://localhost:8081/cour/AddCour', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
         },
         body: formData,
       });
 
+<<<<<<< HEAD
       // Si la réponse est réussie (statut 200 ou 201)
       if (response.ok) {
         const responseData = await response.json(); // On s'attend à une réponse JSON
@@ -88,17 +113,42 @@ const AddCourseForm = ({ courses, setCourses }) => {
       console.error('Unexpected error:', error);
       setErrorMessage('An unexpected error occurred. Please try again.');
       setSuccessMessage('');
+=======
+      // Handle the response
+      if (response.ok) {
+        const responseData = await response.text();
+        const newCourse = JSON.parse(responseData); // Parse the JSON response
+
+        setCourses([...courses, newCourse]); // Update the courses list
+
+        alert('Course added successfully!');
+
+        // Reset form fields
+        setCourseName('');
+        setCourseContent('');
+        setCoursePicture(null);
+      } else {
+        const errorData = await response.text();
+        alert('Error: ' + errorData);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while adding the course.');
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
     }
   };
 
   return (
     <div>
       <h1>Add Course</h1>
+<<<<<<< HEAD
 
       {/* Affichage des messages de succès et d'erreur */}
       {successMessage && <div className="alert alert-success">{successMessage}</div>}
       {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
 
+=======
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
       <form onSubmit={handleFormSubmit}>
         <table className="table table-bordered">
           <thead>
@@ -161,7 +211,10 @@ const AddCourseForm = ({ courses, setCourses }) => {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
 const CoursesList = () => {
   const [courses, setCourses] = useState([]);
   const [images, setImages] = useState([]); // Store images
@@ -254,6 +307,7 @@ const CoursesList = () => {
           </tr>
         </thead>
         <tbody>
+<<<<<<< HEAD
   {courses.map((course) => {
     // Trouver l'image correspondante pour chaque cours
     const image = images.find((image) => image.cour.id === course.id);
@@ -293,6 +347,50 @@ const CoursesList = () => {
   })}
 </tbody>
 
+=======
+          {courses.map((course) => (
+            <tr key={course.id}>
+              <td>{course.title}</td>
+              <td>{course.contenu}</td>
+              <td>
+                {images.length > 0 && images.find((image) => image.cour.id === course.id) ? (
+                  <img
+                    src={`data:${
+                      images.find((image) => image.cour.id === course.id).type
+                    };base64,${
+                      images.find((image) => image.cour.id === course.id).picbyte
+                    }`}
+                    alt={course.title}
+                    className="img-fluid"
+                    style={{ width: '50px', height: '50px' }}
+                  />
+                ) : (
+                  <img
+                    src="https://via.placeholder.com/150" // Placeholder if no image
+                    alt="Placeholder"
+                    className="img-fluid"
+                    style={{ width: '50px', height: '50px' }}
+                  />
+                )}
+              </td>
+              <td>
+                <button
+                  onClick={() => handleUpdate(course)}
+                  className="btn btn-warning me-2"
+                >
+                  Update
+                </button>
+                <button
+                  onClick={() => handleDelete(course.id)}
+                  className="btn btn-danger"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
       </table>
 
       {/* Modal for course update */}
@@ -346,13 +444,20 @@ const AddQuizForm = ({ quizzes, setQuizzes }) => {
   const [quizTitle, setQuizTitle] = useState('');
   const [quizImage, setQuizImage] = useState(null);
   const [questions, setQuestions] = useState([]);
+<<<<<<< HEAD
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+=======
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
 
   const addQuestion = () => {
     setQuestions([
       ...questions,
+<<<<<<< HEAD
       { id: Date.now(), text: '', options: ['', '', '', ''], correctAnswerId: '' },
+=======
+      { id: Date.now(), text: '', options: ['', '', '', ''], correctAnswer: '' },
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
     ]);
   };
 
@@ -379,6 +484,7 @@ const AddQuizForm = ({ quizzes, setQuizzes }) => {
     setQuestions(questions.filter((_, i) => i !== index));
   };
 
+<<<<<<< HEAD
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
@@ -440,16 +546,33 @@ const AddQuizForm = ({ quizzes, setQuizzes }) => {
       setErrorMessage('Error adding quiz: ' + error.message);
       setSuccessMessage('');
     }
+=======
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    const newQuiz = {
+      title: quizTitle,
+      image: quizImage,
+      questions,
+    };
+    setQuizzes([...quizzes, newQuiz]);
+    alert('Quiz added successfully!');
+    setQuizTitle('');
+    setQuizImage(null);
+    setQuestions([]);
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
   };
 
   return (
     <div>
       <h1>Add Quiz</h1>
+<<<<<<< HEAD
 
       {/* Affichage des messages de succès et d'erreur */}
       {successMessage && <div className="alert alert-success">{successMessage}</div>}
       {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
 
+=======
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
       <form onSubmit={handleFormSubmit}>
         <div className="mb-3">
           <label>Quiz Title</label>
@@ -501,13 +624,22 @@ const AddQuizForm = ({ quizzes, setQuizzes }) => {
             <label>Correct Answer</label>
             <select
               className="form-control mb-2"
+<<<<<<< HEAD
               value={question.correctAnswerId}
               onChange={(e) => updateQuestion(qIndex, 'correctAnswerId', parseInt(e.target.value))}
+=======
+              value={question.correctAnswer}
+              onChange={(e) => updateQuestion(qIndex, 'correctAnswer', e.target.value)}
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
               required
             >
               <option value="">Select correct answer</option>
               {question.options.map((_, optIndex) => (
+<<<<<<< HEAD
                 <option key={optIndex} value={optIndex}>
+=======
+                <option key={optIndex} value={String.fromCharCode(65 + optIndex)}>
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
                   Option {String.fromCharCode(65 + optIndex)}
                 </option>
               ))}
@@ -532,6 +664,7 @@ const AddQuizForm = ({ quizzes, setQuizzes }) => {
   );
 };
 
+<<<<<<< HEAD
 
 
 
@@ -703,11 +836,19 @@ const QuizzesList = () => {
     <div>
       <h1>Quizzes List</h1>
       <table className="table table-striped table-responsive">
+=======
+const QuizzesList = ({ quizzes }) => {
+  return (
+    <div>
+      <h1>Quizzes List</h1>
+      <table className="table table-striped">
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
         <thead>
           <tr>
             <th>Quiz Title</th>
             <th>Number of Questions</th>
             <th>Image</th>
+<<<<<<< HEAD
             <th>Actions</th>
           </tr>
         </thead>
@@ -826,6 +967,29 @@ const QuizzesList = () => {
 };
 
 
+=======
+          </tr>
+        </thead>
+        <tbody>
+          {quizzes.map((quiz, index) => (
+            <tr key={index}>
+              <td>{quiz.title}</td>
+              <td>{quiz.questions.length}</td>
+              <td>
+                <img
+                  src={quiz.image ? URL.createObjectURL(quiz.image) : 'img/placeholder.jpg'}
+                  alt={quiz.title}
+                  style={{ width: '50px', height: '50px' }}
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
 const StudentList = () => {
   const [students, setStudents] = useState([]); // State to store student data
   const [loading, setLoading] = useState(true); // State to track loading
@@ -853,12 +1017,17 @@ const StudentList = () => {
 
   // Function to handle delete
   const handleDelete = async (id) => {
+<<<<<<< HEAD
     const token = localStorage.getItem('accessToken'); 
     try {
       const response = await fetch(`http://localhost:8081/User/DeleteUser?id=${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
+=======
+    try {
+      const response = await fetch(`http://localhost:8081/User/DeleteUser/${id}`, {
+>>>>>>> 8513ab16611c2c3192a8397a9cb38dc70f9ecbd5
         method: 'DELETE',
       });
       if (!response.ok) {
